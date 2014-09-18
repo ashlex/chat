@@ -12,7 +12,7 @@ import org.xml.sax.SAXException;
 
 
 public class Config {
-	final int PORT;
+	final int PORT; // Порт для соединения
 	final String PATCH;
 	private final File fXml;
 	
