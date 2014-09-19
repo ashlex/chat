@@ -24,7 +24,7 @@ public class ThreadSocket extends Thread implements IPoolThread{
 	private boolean free=true;
 	
 	
-	public void load(int id, Socket s) {
+	public void load(Socket s) {
 		socket=s;
 		this.id=id;
 		free=false;

@@ -1,10 +1,16 @@
 package connection;
 
+import java.math.BigInteger;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class ListSocket {
-	private Map<Integer, ThreadSocket> list=new HashMap<Integer, ThreadSocket>();
+	private BigInteger count=BigInteger.valueOf(0);
+	private Collection<Socket> list=new ArrayList<Socket>();
 	
 	private static final ListSocket INSTANCE=new ListSocket();
 	private ListSocket(){}
@@ -13,13 +19,19 @@ public class ListSocket {
 		return INSTANCE;
 	}
 	
-	public boolean addThreadSocket(ThreadSocket ts){
-		list.put((int)ts.getId(), ts);
+	public boolean addThreadSocket(Socket s){
+		list.add(s);
 		return true;
 	}
 	
-	public ThreadSocket getThreadSocket(int id){
-		return list.get(id);
+	public ThreadSocket getThreadSocket(Socket s){
+		Iterator<Socket> it=list.iterator();
+		while (it.hasNext()) {
+			Socket socket = (Socket) it.next();
+			if(socket.equals(s)){
+				
+			}
+		}
 	}
 	
 	public boolean removeThreadSocket(int id){

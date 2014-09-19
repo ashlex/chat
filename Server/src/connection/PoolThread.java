@@ -47,7 +47,7 @@ public class PoolThread {
 	}
 	
 	public void continueThread(int id){
-		ThreadSocket ts=
+//		ThreadSocket ts=
 	}
 	
 	
