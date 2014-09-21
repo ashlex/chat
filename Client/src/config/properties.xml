@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<properties>
+	<connect>
+		<port>6666</port>
+		<host>192.168.1.253</host>
+	</connect>
+	<default>
+		<path></path>
+		<log_path></log_path></default></properties>

@@ -10,7 +10,7 @@ public abstract class BuilderMessage{
 	protected GregorianCalendar date=null;
 	
 	public Message build(){
-		return new Message(id,sender,recipient,date,message);
+		return new Message(id,sender.getLogin(),recipient.getLogin(),date,message);
 	}
 	public abstract void setId();
 	public abstract void setSender();

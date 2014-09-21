@@ -1,82 +1,95 @@
 package connection;
 
+//import init;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.StreamCorruptedException;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.logging.Logger;
 
 import Entity.BuilderMessageXML;
+import Entity.Client;
+import Entity.ClientList;
 import Entity.DirectorMessage;
+import Entity.HistoryMessage;
+import Entity.Login;
 import Entity.Message;
 import Entity.BuilderMessage;
 
-public class ThreadSocket extends Thread implements IPoolThread{
-	
-	private static final long serialVersionUID = 1L;
+public class ThreadSocket implements Runnable {
 
-	private Socket socket=null;
-	private int id=0;
-	private DataOutputStream out=null;
-	private DataInputStream in=null;
-	private Message message=null;
-	private boolean free=true;
-	
-	
-	public void load(Socket s) {
-		socket=s;
-		this.id=id;
-		free=false;
+	// private static final long serialVersionUID = 1L;
+
+	private Socket socket = null;
+	// private int id=0;
+	private InputStream is;
+	private OutputStream os;
+	// private boolean free=true;
+	private Message msg;
+
+	public ThreadSocket(Socket s) {
+		this.socket = s;
 	}
-	
-	public void run(){
-		InputStream is;
-		OutputStream os;
+
+	public void run() {
 		try {
+			log().info("Получение потока ввода");
 			is = socket.getInputStream();
+			log().info("Получение потока вывода");
 			os = socket.getOutputStream();
-			in=new DataInputStream(is);
-			out=new DataOutputStream(os);
+
+			log().info("Создание обекта потока вывода");
+			final ObjectOutputStream out = new ObjectOutputStream(os);
+			log().info("Создание обекта потока ввода");
+			final ObjectInputStream in = new ObjectInputStream(this.socket.getInputStream());
+
+			log().info("чтение первого сообщения");
+			msg = (Message) in.readObject();
+			if (msg instanceof Login) {
+				log().info(msg.toString());
+				ClientList.getInstance().addClient(msg.getSender(), socket, out, in);
+				HistoryMessage.getInstance().addMessage(msg);
+				for (Client client : ClientList.getInstance().getClientList()) {
+					client.getObjectOutputStream().writeObject(msg);
+				}
+			}
+
+			while (true) {
+				// BuilderMessage bm;
+				// bm = new BuilderMessageXML(in.readUTF());
+				// DirectorMessage dm=new DirectorMessage();
+				msg = (Message) in.readObject();
+				broadcast(ClientList.getInstance().getClientList(), msg);
+
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		while(true){
-			BuilderMessage bm;
-			try {
-				bm = new BuilderMessageXML(in.readUTF());
-				DirectorMessage dm=new DirectorMessage();
-				message= dm.createMessage(bm);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-	}
-	
-	public long getId(){
-		return this.id;
-	}
-	
-	public void sendMessage(String str) throws IOException{
-		out.writeUTF(str);
-		out.flush();
+
 	}
 
-	@Override
-	public void resset() {
-		socket=null;
-		id=0;
-		message=null;
-		in=null;
-		out=null;
-		free=true;
-	}
-	
-	public boolean isFree(){
-		return free;
+	private void broadcast(ArrayList<Client> OnLineCliens, Message m)
+			throws IOException {
+		for (Client client : OnLineCliens) {
+			client.getObjectOutputStream().writeObject(m);
+			client.getObjectOutputStream().flush();
+		}
 	}
 
+	public static Logger log() {
+		Logger log = Logger.getLogger(ThreadSocket.class.getClass().getName());
+		return log;
+	}
 }

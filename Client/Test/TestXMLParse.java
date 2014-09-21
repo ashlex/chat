@@ -3,9 +3,10 @@ import static org.junit.Assert.*;
 import java.io.File;
 
 
+
 import org.junit.Test;
 
-import config.XMLParse;
+import core.XMLParse;
 
 
 public class TestXMLParse {

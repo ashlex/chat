@@ -1,5 +1,6 @@
 package DAO;
 
+import Entity.HistoryMessage;
 import Entity.User;
 
 public interface Dao {
@@ -8,4 +9,6 @@ public interface Dao {
 	User getUser(int id);
 	int getNewId();
 	boolean removeUser(int id);
+	HistoryMessage getAllMessage(User user); 
+	boolean saveHistory(User u,HistoryMessage hm);
 }

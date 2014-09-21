@@ -1,22 +1,30 @@
 package Entity;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 public class ContactList {
-	private Map<Integer, User> contacts=new HashMap<Integer,User>();
+	private Collection<User> contacts=new ArrayList<User>();
 	
 	public boolean addContact(User user){
-			contacts.put(Integer.valueOf(user.getId()), user);
+			contacts.add(user);
 			return true;
 	}
 	
-	public Map<Integer, User> getAllContact(){
+	public Collection<User> getAllContact(){
 		return contacts;
 	}
 	
 	public User getContactById(int id){
-		return contacts.get(Integer.valueOf(id));
+		Iterator<User> it=contacts.iterator();
+		while (it.hasNext()) {
+			User user = (User) it.next();
+			if(user.getId()==id){
+				return user;
+			}
+		}
+		return null;
 	}
 
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<message>
+	<port>6666</port>
+	</message>
+	<default>
+		<max_histori_length>30</max_histori_length></default></config>

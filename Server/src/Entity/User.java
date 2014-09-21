@@ -2,7 +2,7 @@ package Entity;
 
 public class User extends EntityBase{
 	String password=null;
-	String name=null;
+	String login=null;
 	ContactList cl=null;
 	boolean stat=false;
 	
@@ -21,14 +21,14 @@ public class User extends EntityBase{
 		return cl;
 	}
 	
-	public String getName(){
-		return name;
+	public String getLogin(){
+		return login;
 	}
 	
-	public boolean setName(String name){
-		this.name=name;
-		return true;
-	}
+//	public boolean setName(String name){
+//		this.login=name;
+//		return true;
+//	}
 	
 	public boolean validation(String pass){
 		if(password.equals(pass)){

@@ -1,15 +1,19 @@
 package DAO;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import Entity.HistoryMessage;
 import Entity.User;
+import Entity.Message;
 
 public class MemDao implements Dao {
 
 	private int userCount;
 	private Map<Integer, User> users=new HashMap<Integer, User>();
-	
+	private Map<User, HistoryMessage> historyMessage=new HashMap<User,HistoryMessage>();
 	private static final MemDao INSTANCE =new MemDao();
 	private MemDao(){}
 	public static MemDao getInstance(){
@@ -56,6 +60,16 @@ public class MemDao implements Dao {
 			users.remove(id);
 			return true;
 		}
+		return false;
+	}
+
+	@Override
+	public HistoryMessage getAllMessage(User user) {
+		return historyMessage.get(user);
+	}
+	@Override
+	public boolean saveHistory(User u,HistoryMessage hm) {
+//		historyMessage.get(u).
 		return false;
 	}
 }
