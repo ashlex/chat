@@ -2,7 +2,7 @@ package Entity;
 
 import java.util.GregorianCalendar;
 
-public abstract class BuilderMessage{
+public abstract class BuilderMessage implements Builder{
 	protected int id=0;
 	protected String message;
 	protected User sender=null;

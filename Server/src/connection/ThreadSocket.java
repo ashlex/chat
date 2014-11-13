@@ -34,6 +34,7 @@ public class ThreadSocket implements Runnable {
 	private OutputStream os;
 	// private boolean free=true;
 	private Message msg;
+	private String login;
 
 	public ThreadSocket(Socket s) {
 		this.socket = s;
@@ -55,10 +56,12 @@ public class ThreadSocket implements Runnable {
 			msg = (Message) in.readObject();
 			if (msg instanceof Login) {
 				log().info(msg.toString());
-				ClientList.getInstance().addClient(msg.getSender(), socket, out, in);
+				login=msg.getSender();
+				ClientList.getInstance().addClient(login, socket, out, in);
 				HistoryMessage.getInstance().addMessage(msg);
 				for (Client client : ClientList.getInstance().getClientList()) {
 					client.getObjectOutputStream().writeObject(msg);
+					client.getObjectOutputStream().flush();
 				}
 			}
 
@@ -73,6 +76,7 @@ public class ThreadSocket implements Runnable {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			ClientList.getInstance().removeClient(login);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -83,6 +87,7 @@ public class ThreadSocket implements Runnable {
 	private void broadcast(ArrayList<Client> OnLineCliens, Message m)
 			throws IOException {
 		for (Client client : OnLineCliens) {
+			if(client)
 			client.getObjectOutputStream().writeObject(m);
 			client.getObjectOutputStream().flush();
 		}

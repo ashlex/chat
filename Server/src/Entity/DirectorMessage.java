@@ -1,8 +1,8 @@
 package Entity;
 
-public class DirectorMessage {
+public class DirectorMessage implements Director<BuilderMessage, Message> {
 	
-	public Message createMessage(BuilderMessage bm){
+	public Message create(BuilderMessage bm){
 		bm.setId();
 		bm.setSender();
 		bm.setRecipient();
@@ -10,5 +10,6 @@ public class DirectorMessage {
 		bm.setMessage();
 		return bm.build();
 	}
+
 
 }

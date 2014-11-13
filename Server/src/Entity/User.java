@@ -1,46 +1,54 @@
 package Entity;
 
-public class User extends EntityBase{
-	String password=null;
-	String login=null;
-	ContactList cl=null;
-	boolean stat=false;
-	
-	public User(int id, String pass) {
-		super(id);
-		password=pass;
-		cl=new ContactList();
+import java.math.BigInteger;
+import java.util.ArrayList;
+
+public class User implements EntityBase{
+	private BigInteger id;
+	private String login = null;
+	private ClientList clientList;
+	private Friend friend = null;
+
+	public User(BigInteger id, String login, ClientList clientList, Friend friend) {
+		this.id=id;
+		this.login=login;
+		this.clientList=clientList;
+		this.friend=friend;
 	}
-	
-	public boolean setPassword(String newPass){
-		password=newPass;
-		return true;
+
+	public Friend getFriend() {
+		return friend;
 	}
-	
-	public ContactList getContactList(){
-		return cl;
-	}
-	
-	public String getLogin(){
+
+	public String getLogin() {
 		return login;
 	}
-	
-//	public boolean setName(String name){
-//		this.login=name;
-//		return true;
-//	}
-	
-	public boolean validation(String pass){
-		if(password.equals(pass)){
-			stat=true;
-			return true;
+
+	public void addClient() {
+
+	}
+
+	public void removeClient() {
+
+	}
+
+	public ArrayList<Client> getClients(ArrayList<BigInteger> id) {
+		ArrayList<Client> res=new ArrayList<Client>(id.size());
+		for (BigInteger i : id) {
+			for (Client cl : this.clientList.getClientList()) {
+				if(cl.getUser().getId().equals(i)){
+					res.add(cl);
+					break;
+				}
+			}
 		}
-		return false;
-		
+		return res;
 	}
-	
-	public boolean getStat(){
-		return stat;
+
+	public ClientList getClientList() {
+		return this.clientList;
 	}
-	
+	public BigInteger getId(){
+		return this.id;
+	}
 }

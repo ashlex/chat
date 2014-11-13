@@ -3,8 +3,7 @@ package Entity;
 import java.io.Serializable;
 import java.util.GregorianCalendar;
 
-public class Message implements Serializable{
-
+public class Message implements Serializable , EntityBase{
 	private static final long serialVersionUID = 1L;
 	
 	private String message=null;

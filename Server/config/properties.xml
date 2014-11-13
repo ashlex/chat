@@ -4,4 +4,13 @@
 	<port>6666</port>
 	</message>
 	<default>
-		<max_histori_length>30</max_histori_length></default></config>
+		<max_histori_length>30</max_histori_length></default>
+	
+	<DATA_BASE>
+		<DATA_BASE_NAME>java</DATA_BASE_NAME>
+		<DATA_BASE_HOST>192.168.1.253</DATA_BASE_HOST>
+		<DATA_BASE_PORT>3306</DATA_BASE_PORT>
+		<DATA_BASE_LOGIN>root</DATA_BASE_LOGIN>
+		<DATA_BASE_PASS>root</DATA_BASE_PASS>
+		<DATA_BASE_DRIVER>com.mysql.jdbc.Driver</DATA_BASE_DRIVER>
+		<DATA_BASE_TIME_OUT>3000</DATA_BASE_TIME_OUT></DATA_BASE></config>
